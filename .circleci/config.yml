@@ -1,23 +1,18 @@
 version: 2.1
 
-orbs:
-  python: circleci/python@0.2.1
-
-jobs:
-  build-and-test:
-    working-directory: ~/ci-test
-    docker:
+jobs: # A basic unit of work in a run
+  build: # runs not using Workflows must have a `build` job as entry point 
+    # directory where steps are run
+    working_directory: ~/ci-test
+    docker: # run the steps with Docker
+      # CircleCI Python images available at: https://hub.docker.com/r/circleci/python/
       - image: circleci/python:3.6.4
         environment: # environment variables for primary container
           PIPENV_VENV_IN_PROJECT: true
-    executor: python/default
-    steps:
-      - checkout
+    steps: # steps that comprise the `build` job
+      - checkout # check out source code to working directory
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
       - run:
           command: |
             sudo pip install pipenv
@@ -25,8 +20,3 @@ jobs:
       - run:
           command: |
             pipenv run python add_test.py test
-
-workflows:
-  main:
-    jobs:
-      - build-and-test
