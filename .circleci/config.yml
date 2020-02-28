@@ -17,8 +17,8 @@ jobs:
       - python/install-deps
       - python/save-cache
       - run:
-          command: ./add_test.py test
-          name: Test
+          command: |
+            pipenv run python add_test.py test
 
 workflows:
   main:
