@@ -1,3 +1,3 @@
 def add(a, b):
-    c = a + b + 1
+    c = a + b
     return c
