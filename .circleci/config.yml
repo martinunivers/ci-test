@@ -18,6 +18,10 @@ jobs:
       - python/save-cache
       - run:
           command: |
+            sudo pip install pipenv
+            pipenv install
+      - run:
+          command: |
             pipenv run python add_test.py test
 
 workflows:
